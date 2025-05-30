@@ -210,7 +210,7 @@ const Checkout = () => {
                                                 className="w-full p-2 border rounded"
                                             />
                                             <ErrorMessage
-                                                name="phone"
+                                                name="email"
                                                 component="p"
                                                 className="text-red-500  text-sm mt-1 font-futura"
                                             />
