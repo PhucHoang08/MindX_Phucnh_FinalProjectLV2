@@ -1,0 +1,28 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: 'PramukhRounded';
+  src: url('./assets/fonts/PramukhRounded-Semibold.otf') format('opentype');
+  font-weight:normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Maxtield';
+  src: url('./assets/fonts/Maxtield.otf') format('opentype');
+  font-weight:normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Didot';
+  src: url('./assets/fonts/Didot.ttc') format('opentype');
+  font-weight:normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Futura';
+  src: url('./assets/fonts/Futura.ttc') format('opentype');
+  font-weight:normal;
+  font-style: normal;
+}
