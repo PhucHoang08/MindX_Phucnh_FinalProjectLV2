@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { CartIconCard } from "../icon/CartIconCard";
@@ -55,7 +55,7 @@ function NewProduct({ product }) {
       className=" h-fit p-2 rounded-lg border-2 border-black bg-white"
     >
       <div className="h-1/5 w-full">
-        <a href={`/product/${product.id}`}>
+        <Link to={`/product/${product.id}`} >
           <img
             loading="lazy"
             className="w-full h-2/3 rounded-lg"
@@ -69,23 +69,23 @@ function NewProduct({ product }) {
               "https://via.placeholder.com/300x200?text=Image+Not+Found")
             }
           />
-        </a>
+        </Link>
 
         {/* Các nút action và tooltip có thể tách tiếp hoặc giữ nguyên */}
         <div className="w-full h-1/2">
 
           <div className="w-full h-1/4">
-            <a
-              href={`/product/${product.id}`}
+            <Link
+              to={`/product/${product.id}`}
               className="text-3xl font-pramukhrounded text-gray-900 hover:!text-red-500 transition-all duration-300"
             >
               {product.name}
-            </a>
+            </Link>
           </div>
 
           <div className=" flex flex-row items-center justify-between gap-2">
             <p className="text-2xl font-futura leading-tight text-gray-900">
-              $ {product.price.toLocaleString()} USD
+              $ {product.price} USD
             </p>
             <button
               onClick={() => navigate(`/product/${product.id}`)}
