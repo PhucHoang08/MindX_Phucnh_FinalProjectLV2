@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartIconCard } from "../icon/CartIconCard";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
@@ -73,12 +73,12 @@ function ProductCard({ product }) {
 
         <div className="w-full h-1/2">
           <div className="w-full h-1/4">
-            <a
-              href={`/product/${product.id}`}
+            <Link
+              to={`/product/${product.id}`}
               className="text-4xl font-pramukhrounded text-black hover:!text-red-500 transition-all duration-300"
             >
               {product.name}
-            </a>
+            </Link>
           </div>
 
           <div className="flex flex-row items-center justify-between gap-2">
