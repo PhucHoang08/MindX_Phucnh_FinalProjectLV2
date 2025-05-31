@@ -23,17 +23,14 @@ const AboutUs = () => {
         {/* Features */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center">
-            <div className="text-3xl text-red-500 mb-2">💰</div>
             <h4 className="font-semibold mb-1 font-futura">Best Price Guaranteed</h4>
             <p className="text-sm text-gray-500 font-futura">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
           <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center">
-            <div className="text-3xl text-black mb-2">🛠️</div>
             <h4 className="font-semibold mb-1 font-futura">Finance Analysis</h4>
             <p className="text-sm text-gray-500 font-futura">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
           <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center">
-            <div className="text-3xl text-red-500 mb-2">👨‍💼</div>
             <h4 className="font-semibold mb-1 font-futura">Professional Team</h4>
             <p className="text-sm text-gray-500 font-futura">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
@@ -42,11 +39,6 @@ const AboutUs = () => {
 
       {/* Image and Video Section */}
       <section className="flex flex-col lg:flex-row items-center justify-center gap-8 px-6 lg:px-24 mb-20">
-        <img
-          src="https://img.freepik.com/free-photo/group-people-working-out-business-plan-office_1303-15869.jpg"
-          alt="team working"
-          className="w-full lg:w-1/2 rounded-xl shadow-lg"
-        />
         <img
           src="https://img.freepik.com/free-photo/group-people-working-out-business-plan-office_1303-15869.jpg"
           alt="team working"
