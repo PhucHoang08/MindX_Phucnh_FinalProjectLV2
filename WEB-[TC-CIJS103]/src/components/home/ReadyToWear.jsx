@@ -122,8 +122,8 @@ function ReadyToWear() {
 
   if (!isLoading && products.length === 0) {
     return (
-      <div className="text-center py-20 text-gray-500 dark:text-gray-400">
-        Không có sản phẩm nào để hiển thị.
+      <div className="text-center py-20 text-black font-futura uppercase">
+        No products to display
       </div>
     );
   }

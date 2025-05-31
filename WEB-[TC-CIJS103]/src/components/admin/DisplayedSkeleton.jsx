@@ -21,7 +21,6 @@ function DisplayedSkeleton() {
 
             {/* Checkbox va ID */}
             <div className='w-full flex flex-row justify-center items-center gap-2 mt-1.5 mb-1.5'>
-                <Skeleton variant="rounded" width={20} height={20} />
                 <Skeleton variant="rounded" width={50} height={20} />
             </div>
 

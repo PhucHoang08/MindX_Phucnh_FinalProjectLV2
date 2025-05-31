@@ -3,7 +3,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 function DisplayedSkeleton() {
     return (
-        <div className="w-1/4 h-fit px-4 py-2 flex flex-col justify-between items-center hover:bg-gray-50 text-center rounded gap-2 border-2 border-black shadow"
+        <div className="w-1/4 h-fit px-4 py-2 flex flex-col justify-between items-center hover:bg-gray-50 text-center rounded gap-2 border-2 border-gray-200 shadow"
         >
             {/* Dòng customer, đổi màu khi hover */}
             <div className=" flex flex-col justify-between items-center ">

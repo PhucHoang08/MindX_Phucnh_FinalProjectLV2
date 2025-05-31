@@ -35,10 +35,9 @@ function Footer() {
                         Phone: 0906785477
                     </h1>
                 </div>
-                <div className="w-1/2 h-1/2 font-futura text-2xl flex flex-col justify-between items-end ">
+                <div className="w-1/2 h-1/4 font-futura text-2xl flex flex-col justify-between items-end ">
                     <Link to="/" className=" no-underline text-white hover:!text-red-500  transition-all duration-300">HOME</Link>
                     <Link to="/about-us" className="no-underline text-white hover:!text-red-500 transition-all duration-300">ABOUT</Link>
-                    <Link to="/contact" className="no-underline text-white hover:!text-red-500  transition-all duration-300">CONTACT</Link>
                 </div>
 
             </div>
