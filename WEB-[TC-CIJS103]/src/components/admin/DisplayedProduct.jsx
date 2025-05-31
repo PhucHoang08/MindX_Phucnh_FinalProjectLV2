@@ -1,7 +1,6 @@
 import React from 'react'
 import { Autoplay } from "swiper/modules"; // Import module Autoplay từ Swiper để ảnh tự động chuyển
 import { Swiper, SwiperSlide } from "swiper/react"; // Import Swiper và SwiperSlide để tạo carousel ảnh sản phẩm
-import { Pencil, Eye, Trash2 } from "lucide-react"; // Import các icon Pencil, Eye, Trash2 từ thư viện lucide-react để dùng trong giao diện
 import { SquarePenIcon } from '../icon/SquarePenIcon';
 import { DeleteIcon } from '../icon/DeleteIcon';
 function DisplayedProduct({ item, handleEditProduct, handleSoftDeleteProduct, isLoading }) {

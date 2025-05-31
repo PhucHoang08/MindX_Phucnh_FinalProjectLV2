@@ -14,6 +14,7 @@ function AllProducts() {
     useEffect(() => {
         const el = cardRef.current;
 
+        // GSAP animation
         gsap.fromTo(
             el,
             { y: 80, opacity: 0 },
@@ -25,37 +26,43 @@ function AllProducts() {
                 scrollTrigger: {
                     trigger: el,
                     start: "top 85%",
-                    toggleActions: "play none none reverse", // hoặc "restart none none none" nếu bạn muốn chạy mỗi lần xuất hiện
+                    toggleActions: "play none none reverse",
                 },
             }
         );
+
         const fetchData = async () => {
             try {
                 setIsLoading(true);
                 const result = await fetchProducts({ cache: "no-store" });
+                const rawProductList = result[result.length - 1].data;
+                console.log("rawProductList", rawProductList)
+                let productsList = [];
 
-                const productsList = Array.isArray(result)
-                    ? result.flatMap(
-                        (item) =>
-                            item?.data?.filter(
-                                (product) =>
-                                    product &&
-                                    typeof product === "object" &&
-                                    product.id &&
-                                    product.name
-                            ) || []
-                    )
-                    : [];
+                if (Array.isArray(rawProductList)) {
+                    rawProductList.forEach((product) => {
+                        if (
+                            product &&
+                            typeof product === "object" &&
+                            product.status === "available" &&
+                            product.id &&
+                            product.name
+                        ) {
+                            productsList.push(product);
+                        }
+                    });
+                }
 
                 const productMap = new Map();
+
                 productsList.forEach((product) => {
+                    if (product?.status?.toLowerCase() !== "available") return; // Bỏ sớm nếu không available
+
                     const existingProduct = productMap.get(product.id);
                     if (!existingProduct) {
                         productMap.set(product.id, product);
                     } else {
-                        const existingDate = new Date(
-                            existingProduct.date.replace("thg", "tháng")
-                        );
+                        const existingDate = new Date(existingProduct.date.replace("thg", "tháng"));
                         const newDate = new Date(product.date.replace("thg", "tháng"));
                         if (newDate > existingDate) {
                             productMap.set(product.id, product);
@@ -63,7 +70,10 @@ function AllProducts() {
                     }
                 });
 
-                setProducts(Array.from(productMap.values()));
+                const uniqueProducts = Array.from(productMap.values());
+                console.log("uniqueProducts", uniqueProducts)
+                setProducts(uniqueProducts);
+
             } catch (error) {
                 console.error("Không thể tải sản phẩm:", error);
                 alert("Không thể tải sản phẩm. Vui lòng thử lại sau.");
@@ -71,8 +81,10 @@ function AllProducts() {
                 setIsLoading(false);
             }
         };
+
         fetchData();
     }, []);
+
 
     if (isLoading) {
         return (
@@ -104,10 +116,10 @@ function AllProducts() {
         );
     }
     return (
-        <div  className="w-full h-fit flex flex-col justify-center items-center ">
-            <div  ref={cardRef} className="w-full h-fit flex flex-col justify-between items-center">
+        <div className="w-full h-fit flex flex-col justify-center items-center ">
+            <div ref={cardRef} className="w-full h-fit flex flex-col justify-between items-center">
 
-                <h1  className="font-futura text-5xl text-black mb-[30px]">ALL PRODUCTS</h1>
+                <h1 className="font-futura text-5xl text-black mb-[30px]">ALL PRODUCTS</h1>
 
                 <div className="w-full h-fit flex flex-wrap  flex-row items-center px-6 gap-4 justify-center">
 

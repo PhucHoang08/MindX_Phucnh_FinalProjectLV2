@@ -38,35 +38,39 @@ function ReadyToWear() {
       try {
         setIsLoading(true);
         const result = await fetchProducts({ cache: "no-store" });
-    
-        const productsList = Array.isArray(result)
-          ? result.flatMap(
-              (item) =>
-                item?.data?.filter(
-                  (product) =>
+        const rawProductList = result[result.length - 1].data;
+        let productsList = [];
+
+        if (Array.isArray(rawProductList)) {
+            rawProductList.forEach((product) => {
+                if (
                     product &&
                     typeof product === "object" &&
+                    product.status === "available" &&
                     product.id &&
-                    product.name &&
-                    product.date // đảm bảo có ngày
-                ) || []
-            )
-          : [];
+                    product.name
+                ) {
+                    productsList.push(product);
+                }
+            });
+        }
     
         // Giảm trùng theo ID, ưu tiên sản phẩm có ngày mới hơn
         const productMap = new Map();
         productsList.forEach((product) => {
-          const existing = productMap.get(product.id);
-          if (!existing) {
-            productMap.set(product.id, product);
-          } else {
-            const existingDate = new Date(existing.date);
-            const currentDate = new Date(product.date);
-            if (currentDate > existingDate) {
+          if (product?.status?.toLowerCase() !== "available") return; // Bỏ sớm nếu không available
+
+          const existingProduct = productMap.get(product.id);
+          if (!existingProduct) {
               productMap.set(product.id, product);
-            }
+          } else {
+              const existingDate = new Date(existingProduct.date.replace("thg", "tháng"));
+              const newDate = new Date(product.date.replace("thg", "tháng"));
+              if (newDate > existingDate) {
+                  productMap.set(product.id, product);
+              }
           }
-        });
+      });
     
         // Chuyển sang mảng, sort theo ngày mới nhất, lấy 5 cái đầu
         const latestProducts = Array.from(productMap.values())

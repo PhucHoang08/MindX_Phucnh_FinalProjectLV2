@@ -8,15 +8,12 @@ export const fetchProducts = async () => {
             `${BASE_URL}?apiKey=${API_KEY}`
         );
 
-
         // Parse response thành đối tượng JavaScript
         const result = await response.json();
-
 
         // Truy cập dữ liệu thật nằm trong result.data.data
         // Cấu trúc mock API là { data: { data: [...] } }
         const products = result?.data?.data;
-
 
         // Nếu là mảng thì trả về, nếu không thì trả về mảng rỗng để tránh lỗi
         return Array.isArray(products) ? products : [];

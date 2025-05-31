@@ -30,11 +30,11 @@ const EditProductModal = ({
         name: Yup.string().
             required("NAME PRODUCT IS REQUIRED")
             .trim('NO LEADING OR TRAILING SPACES ALLOW')
-            .test(
-                "no-multiple-spaces",
-                "MUST NOT CONTAIN MULTIPLE SPACES!",
-                (value) => !/\s{2,}/.test(value)
-            ),
+            .test("no-multiple-spaces", "MUST NOT CONTAIN MULTIPLE SPACES!", (value) => !/\s{2,}/.test(value)),
+        description: Yup.string()
+            .required("DESCRIPTION IS REQUIRED!")
+            .trim("NO LEADING OR TRAILING SPACES ALLOWED")
+            .test("no-multiple-spaces", "MUST NOT CONTAIN MULTIPLE SPACES!", (value) => !/\s{2,}/.test(value)),
         price: Yup.number()
             .positive("PRICE MUST BE GREATER THAN 0")
             .required("PRICE IS REQUIRED"),
@@ -45,10 +45,7 @@ const EditProductModal = ({
     });
 
     const handleImageChange = (value) => {
-        const urls = value
-            .split(",")
-            .map((url) => url.trim())
-            .filter((url) => url !== "");
+        const urls = value.split(",").map((url) => url.trim()).filter((url) => url !== "");
         setImagePreviews(urls);
     };
 
@@ -70,6 +67,7 @@ const EditProductModal = ({
                     initialValues={{
                         id: editingProduct.id || "",
                         name: editingProduct.name || "",
+                        description: editingProduct.description || "",
                         price: editingProduct.price || "",
                         images: Array.isArray(editingProduct.images) ? editingProduct.images.join(", ") : "",
 
@@ -101,6 +99,7 @@ const EditProductModal = ({
                             const updatedProduct = {
                                 id: values.id.trim(),
                                 name: values.name.replace(/\s+/g, " ").trim(),
+                                description: values.description.replace(/\s+/g, " ").trim(),
                                 price: parseInt(values.price),
                                 images: imagesArray,
                                 date: getCurrentDate(), // MM/DD/YYYY format
@@ -146,6 +145,7 @@ const EditProductModal = ({
                             alert(`Chỉnh sửa thất bại: ${error.message}. Thử lại sau.`);
                         } finally {
                             setIsLoading(false);
+                            setSubmitting(false);
                         }
                     }}
                 >
@@ -208,6 +208,15 @@ const EditProductModal = ({
                                 <ErrorMessage name="price" component="div" className="text-red-500 text-sm mt-1" />
                             </div>
 
+                            <div>
+                                <Field
+                                    type="text"
+                                    name="description"
+                                    placeholder="Description"
+                                    className="w-full p-2 border rounded" />
+                                <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
+                            </div>
+
                             <input
                                 type="text"
                                 disabled
@@ -228,6 +237,7 @@ const EditProductModal = ({
                                 >
                                     CANCEL
                                 </button>
+
                                 <button
                                     type="submit"
                                     className="relative bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-blue-400 font-futura transition-all duration-300"

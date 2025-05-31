@@ -81,6 +81,9 @@ function Favourite() {
                         PRODUCT
                       </th>
                       <th className="p-3 text-left text-lg font-futura text-black">
+                        SIZE
+                      </th>
+                      <th className="p-3 text-left text-lg font-futura text-black">
                         PRICE
                       </th>
                       <th className="p-3 text-left text-lg font-futura text-black">
@@ -105,6 +108,9 @@ function Favourite() {
                             }
                           />
                           <span className="font-futura text-lg">{item.name}</span>
+                        </td>
+                        <td className="p-3 text-lg text-black font-futura">
+                          SIZE: {item.size}
                         </td>
                         <td className="p-3 text-lg text-black font-futura">
                           PRICE: $ {item.price} USD

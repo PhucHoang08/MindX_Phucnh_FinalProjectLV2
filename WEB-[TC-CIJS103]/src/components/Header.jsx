@@ -15,49 +15,52 @@ function Header() {
   // Hàm loadProducts: Lấy danh sách sản phẩm từ server và cập nhật trạng thái
   const loadProducts = async () => {
     try {
-      setIsLoading(true); // Bật trạng thái loading
-      const result = await fetchProducts(); // Gọi API để lấy danh sách sản phẩm
-
+      setIsLoading(true);
+      const result = await fetchProducts();
+      console.log("Raw result from API:", result);
       let productsList = []; // Khởi tạo mảng để lưu danh sách sản phẩm
       if (Array.isArray(result)) {
-        // Kiểm tra nếu kết quả trả về là mảng
-        result.forEach((item, index) => {
-          // Duyệt qua từng phần tử trong kết quả
-          if (item && item.data && Array.isArray(item.data)) {
-            // Kiểm tra nếu phần tử có thuộc tính data và data là mảng
-            const validProducts = item.data.filter(
-              // Lọc các sản phẩm hợp lệ
-              (product) =>
-                product &&
-                typeof product === "object" &&
-                product.id &&
-                product.name // Sản phẩm phải là object, có id và name
-            );
-            console.log(`Products from result[${index}].data:`, validProducts); // Log danh sách sản phẩm hợp lệ để debug
-            productsList = [...productsList, ...validProducts]; // Thêm các sản phẩm hợp lệ vào productsList
+          // Kiểm tra nếu kết quả trả về là mảng
+          result.forEach((item, index) => {
+              // Duyệt qua từng phần tử trong kết quả
+              if (item && item.data && Array.isArray(item.data)) {
+                  // Kiểm tra nếu phần tử có thuộc tính data và data là mảng
+                  const validProducts = item.data.filter(
+                      // Lọc các sản phẩm hợp lệ
+                      (product) =>
+                          product &&
+                          typeof product === "object" &&
+                          product.status === "available" &&
+                          product.id &&
+                          product.name // Sản phẩm phải là object, có id và name
+                          
+                  );
+                  console.log(`Products from result[${index}].data:`, validProducts); // Log danh sách sản phẩm hợp lệ để debug
+                  productsList = [...productsList, ...validProducts]; // Thêm các sản phẩm hợp lệ vào productsList
+              }
+          });
+      }
+
+      const productMap = new Map();
+
+      productsList.forEach((product) => {
+        if (product?.status?.toLowerCase() !== "available") return; // Bỏ sớm nếu không available
+      
+        const existingProduct = productMap.get(product.id);
+        if (!existingProduct) {
+          productMap.set(product.id, product);
+        } else {
+          const existingDate = new Date(existingProduct.date.replace("thg", "tháng"));
+          const newDate = new Date(product.date.replace("thg", "tháng"));
+          if (newDate > existingDate) {
+            productMap.set(product.id, product);
           }
-        });
-      }
-      const uniqueProducts = Array.from(
-        // Loại bỏ sản phẩm trùng lặp dựa trên id
-        new Map(productsList.map((item) => [item.id, item])).values()
-      );
-      console.log("Parsed product list:", uniqueProducts); // Log danh sách sản phẩm sau khi loại bỏ trùng lặp
-      if (!Array.isArray(uniqueProducts)) {
-        // Kiểm tra nếu danh sách không phải mảng
-        console.error(
-          "Dữ liệu không đúng định dạng, trả về mảng rỗng:",
-          uniqueProducts
-        ); // Log lỗi
-        setProducts([]); // Reset products về mảng rỗng
-        setFilteredProducts([]); // Reset filteredProducts về mảng rỗng
-      } else {
-        console.log("Số lượng sản phẩm tải được:", uniqueProducts.length); // Log số lượng sản phẩm tải được
-        setProducts(uniqueProducts); // Cập nhật trạng thái products
-        setFilteredProducts(uniqueProducts); // Cập nhật trạng thái filteredProducts
-      }
+        }
+      });
 
-
+      const uniqueProducts = Array.from(productMap.values());
+        
+      setProducts(uniqueProducts);
     } catch (error) {
       console.error("Không thể tải danh sách sản phẩm:", error); // Log lỗi nếu không tải được sản phẩm
       alert(
@@ -168,9 +171,9 @@ function Header() {
             type="text"
           />
           {searchTerm && (
-            <div 
-            onClick={()=>{setSearchTerm("")}}
-            className="absolute top-[110%] left-0 w-full bg-white border border-gray-300 shadow-md rounded-md max-h-[300px] overflow-y-auto z-50">
+            <div
+              onClick={() => { setSearchTerm("") }}
+              className="absolute top-[110%] left-0 w-full bg-white border border-gray-300 shadow-md rounded-md max-h-[300px] overflow-y-auto z-50">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
                   <Link

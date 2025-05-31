@@ -151,12 +151,15 @@ const ProductDetail = () => {
 // Hàm thêm sản phẩm vào danh sách yêu thích
 const addToFav = () => {
   if (!product) return; // Nếu không có sản phẩm thì không làm gì cả
-
+  if (!selectedSize) {
+    alert("Vui lòng chọn size trước khi thêm vào phần yêu thích!");
+    return;
+  }
   // Lấy danh sách yêu thích hiện tại từ localStorage, hoặc mảng rỗng nếu chưa có
   const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
 
   // Kiểm tra xem sản phẩm đã tồn tại trong danh sách yêu thích chưa (dựa trên ID)
-  const existingItem = favourites.find((item) => item.id === product.id);
+  const existingItem = favourites.find((item) => item.id === product.id && product.size === selectedSize);
 
   if (existingItem) {
     // Nếu đã tồn tại, thông báo cho người dùng
@@ -165,7 +168,7 @@ const addToFav = () => {
     // Nếu chưa tồn tại, thêm sản phẩm vào danh sách
     // Chúng ta chỉ cần lưu thông tin cơ bản hoặc cả object sản phẩm
     // Ở đây ta lưu cả object, tương tự như giỏ hàng nhưng không có quantity và size
-    favourites.push({ ...product }); 
+    favourites.push({ ...product,size: selectedSize  }); 
     // Lưu lại danh sách yêu thích vào localStorage
     localStorage.setItem("favourites", JSON.stringify(favourites));
     // Thông báo thành công
@@ -362,8 +365,7 @@ const addToFav = () => {
 
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                 <button
-                  onClick={addToCart}
-                  disabled={!selectedSize}
+                  onClick={addToCart} 
                   className="text-white cursor-pointer font-futura bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5  flex items-center transition-all duration-300"
                 >
                   <CartIconCard />

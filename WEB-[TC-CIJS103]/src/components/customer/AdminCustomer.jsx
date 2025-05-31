@@ -7,8 +7,6 @@ import  fetchUsers  from "../../API/userAPI"; // Import hàm fetchProducts từ 
 import HeaderAdmin from '../admin/HeaderAdmin'
 import Footer from '../Footer'
 import SideBar from '../admin/SideBar'
-import AddModal from './AddModal';
-import EditModal from '../admin/EditModal';
 import SideCustomers from "./SideCustomers";
 
 function AdminCustomer() {
@@ -184,29 +182,6 @@ function AdminCustomer() {
       </div>
       <Footer />
 
-
-
-      {showAddModal && ( // Hiển thị modal thêm sản phẩm
-        <AddModal
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          loadProducts={loadProducts}
-          setShowAddModal={setShowAddModal}
-        />
-      )}
-
-
-
-      {showEditModal &&
-        editingProduct && ( // Hiển thị modal chỉnh sửa
-          <EditModal
-            isLoading={isLoading}
-            editingProduct={editingProduct}
-            setIsLoading={setIsLoading}
-            setEditingProduct={setEditingProduct}
-            setShowEditModal={setShowEditModal}
-          />
-        )}
     </div>
   )
 }

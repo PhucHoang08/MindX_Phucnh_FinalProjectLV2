@@ -16,6 +16,10 @@ const AddProductModal = ({ setShowAddModal, setIsLoading, isLoading, loadProduct
       .required("NAME PRODUCT IS REQUIRED!")
       .trim("NO LEADING OR TRAILING SPACES ALLOWED")
       .test("no-multiple-spaces", "MUST NOT CONTAIN MULTIPLE SPACES!", (value) => !/\s{2,}/.test(value)),
+    description: Yup.string()
+      .required("DESCRIPTION IS REQUIRED!")
+      .trim("NO LEADING OR TRAILING SPACES ALLOWED")
+      .test("no-multiple-spaces", "MUST NOT CONTAIN MULTIPLE SPACES!", (value) => !/\s{2,}/.test(value)),
     price: Yup.number()
       .positive("PRICE MUST BE GREATER THAN 0!")
       .required("PRICE IS REQUIRED!"),
@@ -43,7 +47,13 @@ const AddProductModal = ({ setShowAddModal, setIsLoading, isLoading, loadProduct
         <h2 className="text-xl font-futura ">CREATE NEW PRODUCT</h2>
 
         <Formik
-          initialValues={{ id: "", name: "", price: "", images: "" }}
+          initialValues={{ 
+            id: "", 
+            name: "", 
+            description: "", 
+            price: "", 
+            images: "" 
+          }}
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setIsLoading(true);
@@ -74,6 +84,7 @@ const AddProductModal = ({ setShowAddModal, setIsLoading, isLoading, loadProduct
               const newProduct = {
                 id: values.id.trim(),
                 name: values.name.replace(/\s+/g, " ").trim(),
+                description: values.description.replace(/\s+/g, " ").trim(),
                 price: parseInt(values.price),
                 images: imagesArray,
                 date: getCurrentDate(), // MM/DD/YYYY format
@@ -143,6 +154,7 @@ const AddProductModal = ({ setShowAddModal, setIsLoading, isLoading, loadProduct
                 <ErrorMessage name="images" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
+
               <div className="flex flex-wrap gap-2">
                 {imagePreviews.map((src, idx) => (
                   <img
@@ -165,6 +177,15 @@ const AddProductModal = ({ setShowAddModal, setIsLoading, isLoading, loadProduct
                   className="w-full p-2 border rounded"
                 />
                 <ErrorMessage name="price" component="div" className="text-red-500 text-sm mt-1" />
+              </div>
+
+              <div>
+                <Field
+                  type="text"
+                  name="description"
+                  placeholder="Description"
+                  className="w-full p-2 border rounded" />
+                <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
               <input

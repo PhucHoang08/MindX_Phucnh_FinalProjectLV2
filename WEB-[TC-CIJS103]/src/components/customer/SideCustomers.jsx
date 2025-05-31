@@ -61,7 +61,6 @@ function SideCustomers({
                     <div className="flex gap-4">
                         {" "}
                         {/* Nhóm nút Soft Delete All và Add New */}
-                        <Skeleton variant="rounded" width={105} height={45} />
 
                         <Skeleton variant="rounded" width={105} height={45} />
                     </div>
@@ -143,15 +142,6 @@ function SideCustomers({
                 {/* Container cho các nút và bộ lọc */}
                 <div className="flex gap-4">
                     {" "}
-
-                    <button
-                        onClick={() => setShowAddModal(true)} // Mở modal thêm sản phẩm
-                        className="border-2 border-black text-black px-4 py-2 rounded-lg hover:!text-blue-500 hover:!border-blue-500 shadow font-futura transition-all duration-300"
-                        disabled={isLoading}
-                    >
-                        CREATE
-                        
-                    </button>
                     <h1>USERS: {filteredCustomers.length}</h1>
                 </div>
                 <FilterBar
