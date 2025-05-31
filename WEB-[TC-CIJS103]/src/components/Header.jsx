@@ -16,27 +16,21 @@ function Header() {
   const loadProducts = async () => {
     try {
       setIsLoading(true);
-      const result = await fetchProducts();
-      console.log("Raw result from API:", result);
-      let productsList = []; // Khởi tạo mảng để lưu danh sách sản phẩm
-      if (Array.isArray(result)) {
-          // Kiểm tra nếu kết quả trả về là mảng
-          result.forEach((item, index) => {
-              // Duyệt qua từng phần tử trong kết quả
-              if (item && item.data && Array.isArray(item.data)) {
-                  // Kiểm tra nếu phần tử có thuộc tính data và data là mảng
-                  const validProducts = item.data.filter(
-                      // Lọc các sản phẩm hợp lệ
-                      (product) =>
-                          product &&
-                          typeof product === "object" &&
-                          product.status === "available" &&
-                          product.id &&
-                          product.name // Sản phẩm phải là object, có id và name
-                          
-                  );
-                  console.log(`Products from result[${index}].data:`, validProducts); // Log danh sách sản phẩm hợp lệ để debug
-                  productsList = [...productsList, ...validProducts]; // Thêm các sản phẩm hợp lệ vào productsList
+      const result = await fetchProducts({ cache: "no-store" });
+      const rawProductList = result[result.length - 1].data;
+      console.log("rawProductList", rawProductList)
+      let productsList = [];
+
+      if (Array.isArray(rawProductList)) {
+          rawProductList.forEach((product) => {
+              if (
+                  product &&
+                  typeof product === "object" &&
+                  product.status === "available" &&
+                  product.id &&
+                  product.name
+              ) {
+                  productsList.push(product);
               }
           });
       }
